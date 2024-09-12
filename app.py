@@ -1,16 +1,24 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+from flask_cors import CORS 
 
 # Initialize Flask app
 app = Flask(__name__)
+
+CORS(app)
 
 # Load the pre-trained model
 model = joblib.load('house_price_model.pkl')
 
 # Initialize the scaler (you should use the same scaler as in the training)
 scaler = StandardScaler()
+
+@app.route('/')
+def home():
+    # Render the index.html file when the user visits the root URL
+    return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
