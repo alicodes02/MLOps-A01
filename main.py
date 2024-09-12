@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score
+import joblib
  
 df = pd.read_csv('Housing.csv')
 
@@ -145,6 +146,8 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 model = LinearRegression()
 model.fit(X_train, y_train)
+
+joblib.dump(model, 'house_price_model.pkl')
 
   
 from sklearn.metrics import r2_score
