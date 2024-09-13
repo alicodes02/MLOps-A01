@@ -1,0 +1,44 @@
+name: Deploy to EC2 and Run Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.AWS_EC2_KEY }}
+
+      - name: Install dependencies on EC2 and run main.py
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }} << 'EOF'
+            # Update packages and install git
+            sudo apt-get update -y
+            sudo apt-get install git -y
+            
+            # Configure Git to use a GitHub Personal Access Token (PAT) for private repo access
+            git config --global credential.helper store
+
+            # Clone the private GitHub repository using PAT
+            git clone https://alicodes02:${{ secrets.PAT }}@github.com/alicodes02/MLOps-A01.git
+
+            # Navigate into the cloned repo
+            cd MLOps-A01.git
+
+            # Install dependencies (assuming requirements.txt is available)
+            sudo apt-get install python3-pip -y
+            pip3 install -r requirements.txt
+
+            # Run the main.py script
+            python3 main.py
+          EOF
+
