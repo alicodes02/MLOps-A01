@@ -32,7 +32,7 @@ jobs:
             git clone https://alicodes02:${{ secrets.PAT }}@github.com/alicodes02/MLOps-A01.git
 
             # Navigate into the cloned repo
-            cd MLOps-A01.git
+            cd MLOps-A01
 
             # Install dependencies (assuming requirements.txt is available)
             sudo apt-get install python3-pip -y
