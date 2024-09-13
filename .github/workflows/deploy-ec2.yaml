@@ -21,6 +21,14 @@ jobs:
       - name: Install dependencies on EC2 and run main.py
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.AWS_EC2_USER }}@${{ secrets.AWS_EC2_HOST }} << 'EOF'
+
+          cd ~
+
+            # Remove the old cloned repo if it exists
+            if [ -d "MLOps-A01" ]; then
+              echo "Removing existing repository directory..."
+              rm -rf MLOps-A01
+            fi
         
             # Configure Git to use a GitHub Personal Access Token (PAT) for private repo access
             git config --global credential.helper store
