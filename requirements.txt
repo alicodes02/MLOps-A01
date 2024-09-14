@@ -7,3 +7,4 @@ xgboost
 joblib
 flask
 flask-cors
+pytest
