@@ -22,6 +22,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
+      - name: Run Tests
+        run: |
+          python -m pytest --maxfail=1 --disable-warnings -q
+      
       - name: Deploy to Render
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -34,9 +38,3 @@ jobs:
                -H "Authorization: Bearer  ${RENDER_API_KEY}" \
                -H "Content-Type: application/json" \
                -d '{}'
-
-
- # Optionally, add steps to run tests here
-    # - name: Run Tests
-    #   run: |
-    #     python -m unittest discover -s tests
